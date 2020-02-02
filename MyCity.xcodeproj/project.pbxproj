@@ -13,6 +13,7 @@
 		B272755623E6538200E91E51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B272755523E6538200E91E51 /* Assets.xcassets */; };
 		B272755923E6538200E91E51 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B272755823E6538200E91E51 /* Preview Assets.xcassets */; };
 		B272755C23E6538200E91E51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B272755A23E6538200E91E51 /* LaunchScreen.storyboard */; };
+		B272756423E6540100E91E51 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272756323E6540100E91E51 /* Global.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B272755823E6538200E91E51 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B272755B23E6538200E91E51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B272755D23E6538200E91E51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B272756323E6540100E91E51 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		B272754E23E6538000E91E51 /* MyCity */ = {
 			isa = PBXGroup;
 			children = (
+				B272756323E6540100E91E51 /* Global.swift */,
 				B272754F23E6538000E91E51 /* AppDelegate.swift */,
 				B272755123E6538000E91E51 /* SceneDelegate.swift */,
 				B272755323E6538000E91E51 /* ContentView.swift */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B272756423E6540100E91E51 /* Global.swift in Sources */,
 				B272755023E6538000E91E51 /* AppDelegate.swift in Sources */,
 				B272755223E6538000E91E51 /* SceneDelegate.swift in Sources */,
 				B272755423E6538000E91E51 /* ContentView.swift in Sources */,

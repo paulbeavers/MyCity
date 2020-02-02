@@ -15,60 +15,58 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
-struct ContentView: View {
-    @State private var dates = [Date]()
-
+struct ContentView: View {@State private var cities = [String]()
     var body: some View {
         NavigationView {
-            MasterView(dates: $dates)
-                .navigationBarTitle(Text("Master"))
+            MasterView()
+                .navigationBarTitle(Text("My Cities"))
                 .navigationBarItems(
                     leading: EditButton(),
                     trailing: Button(
                         action: {
-                            withAnimation { self.dates.insert(Date(), at: 0) }
+                          //  withAnimation { self.dates.insert(Date(), at: 0) }
                         }
                     ) {
                         Image(systemName: "plus")
                     }
                 )
-            DetailView()
+            DetailView(selectedCity: "")
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }
 
 struct MasterView: View {
-    @Binding var dates: [Date]
-
     var body: some View {
         List {
-            ForEach(dates, id: \.self) { date in
+            ForEach(global.cities, id: \.self) { city in
                 NavigationLink(
-                    destination: DetailView(selectedDate: date)
+                    destination: DetailView(selectedCity: city)
                 ) {
-                    Text("\(date, formatter: dateFormatter)")
+                    VStack {
+                    Text(city)
+                    Text("tz")
+                        Text("tz")
+                        Text("tz")
+                        Image(systemName: "plus")
+                    }
                 }
             }.onDelete { indices in
-                indices.forEach { self.dates.remove(at: $0) }
+                indices.forEach { global.cities.remove(at: $0) }
             }
         }
     }
 }
 
 struct DetailView: View {
-    var selectedDate: Date?
+    var selectedCity: String
 
     var body: some View {
         Group {
-            if selectedDate != nil {
-                Text("\(selectedDate!, formatter: dateFormatter)")
-            } else {
-                Text("Detail view content goes here")
-            }
-        }.navigationBarTitle(Text("Detail"))
+            Text(selectedCity)
+            Text("time zone")
+        }.navigationBarTitle(Text(selectedCity))
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
