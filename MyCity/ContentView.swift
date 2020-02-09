@@ -15,43 +15,53 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
-struct ContentView: View {@State private var cities = [String]()
+struct ContentView: View
+{
+    @State private var localCities = global.cities
+    
     var body: some View {
+        
         NavigationView {
-            MasterView()
+            MasterView(cities: $localCities)
                 .navigationBarTitle(Text("My Cities"))
                 .navigationBarItems(
-                    leading: EditButton(),
-                    trailing: Button(
-                        action: {
-                          //  withAnimation { self.dates.insert(Date(), at: 0) }
-                        }
-                    ) {
-                        Image(systemName: "plus")
-                    }
+                    leading: EditButton()
                 )
-            DetailView(selectedCity: "")
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }
 
 struct MasterView: View {
+    @Binding var cities: [String]
+    @State var showSheet:Bool = false
     var body: some View {
-        List {
-            ForEach(global.cities, id: \.self) { city in
-                NavigationLink(
-                    destination: DetailView(selectedCity: city)
-                ) {
-                    VStack {
-                    Text(city)
-                    Text("tz")
-                        Text("tz")
-                        Text("tz")
-                        Image(systemName: "plus")
-                    }
+        VStack {
+            
+                Button(action: {
+                    self.showSheet.toggle()
+                }) {
+                    Image(systemName: "plus")
+                }.sheet(isPresented: $showSheet) {
+                    AddCityDialog(showingSheet: self.$showSheet, cities: self.$cities)
                 }
-            }.onDelete { indices in
-                indices.forEach { global.cities.remove(at: $0) }
+            
+        
+            List {
+                ForEach(self.cities, id: \.self) { city in
+                    NavigationLink(
+                        destination: DetailView(selectedCity: city)
+                    ) {
+                        VStack {
+                            Text(city)
+                            Text("tz")
+                            Text("tz")
+                            Text("tz")
+                            Image(systemName: "plus")
+                        }
+                    }
+                }.onDelete { indices in
+                    indices.forEach { self.cities.remove(at: $0) }
+                }
             }
         }
     }
@@ -66,6 +76,22 @@ struct DetailView: View {
             Text("time zone")
         }.navigationBarTitle(Text(selectedCity))
     }
+}
+
+struct AddCityDialog: View {
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var showingSheet: Bool
+    @Binding var cities: [String]
+    var body: some View {
+        VStack {
+            Text("Ohay!")
+            Button("Close") {
+                self.cities.append("Untitled")
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
