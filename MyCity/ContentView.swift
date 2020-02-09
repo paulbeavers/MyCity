@@ -15,6 +15,9 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
+//-------------------------------------------------------------
+// ContentView
+//-------------------------------------------------------------
 struct ContentView: View
 {
     @State private var localCities = global.cities
@@ -31,6 +34,9 @@ struct ContentView: View
     }
 }
 
+//-------------------------------------------------------------
+// MasterView
+//-------------------------------------------------------------
 struct MasterView: View {
     @Binding var cities: [String]
     @State var showSheet:Bool = false
@@ -44,8 +50,6 @@ struct MasterView: View {
                 }.sheet(isPresented: $showSheet) {
                     AddCityDialog(showingSheet: self.$showSheet, cities: self.$cities)
                 }
-            
-        
             List {
                 ForEach(self.cities, id: \.self) { city in
                     NavigationLink(
@@ -53,20 +57,22 @@ struct MasterView: View {
                     ) {
                         VStack {
                             Text(city)
-                            Text("tz")
-                            Text("tz")
-                            Text("tz")
-                            Image(systemName: "plus")
                         }
                     }
                 }.onDelete { indices in
-                    indices.forEach { self.cities.remove(at: $0) }
+                    indices.forEach {
+                        self.cities.remove(at: $0)
+                        global.cities.remove(at: $0)
+                    }
                 }
             }
         }
     }
 }
 
+//-------------------------------------------------------------
+// Detail View
+//-------------------------------------------------------------
 struct DetailView: View {
     var selectedCity: String
 
@@ -78,22 +84,33 @@ struct DetailView: View {
     }
 }
 
+//-------------------------------------------------------------
+// AddCityDialog
+//-------------------------------------------------------------
 struct AddCityDialog: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var showingSheet: Bool
     @Binding var cities: [String]
+    @State private var name: String = ""
     var body: some View {
         VStack {
             Text("Ohay!")
-            Button("Close") {
-                self.cities.append("Untitled")
+            TextField("City", text: $name)
+            Button("Save") {
+                self.cities.append(self.name)
+                global.cities.append(self.name)
                 self.presentationMode.wrappedValue.dismiss()
+            }
+            Button("Cancel") {
+                           self.presentationMode.wrappedValue.dismiss()
             }
         }
     }
-    
 }
 
+//-------------------------------------------------------------
+// ContentView_Previews
+//-------------------------------------------------------------
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
