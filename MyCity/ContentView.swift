@@ -21,16 +21,16 @@ private let dateFormatter: DateFormatter = {
 struct ContentView: View
 {
     @State private var localCities = global.cities
+    @State private var navBarHidden = true
     
     var body: some View {
-        
         NavigationView {
             MasterView(cities: $localCities)
-                .navigationBarTitle(Text("My Cities"))
-                .navigationBarItems(
-                    leading: EditButton()
-                )
-        }.navigationViewStyle(DoubleColumnNavigationViewStyle())
+                .navigationBarTitle("")
+                .navigationBarHidden(navBarHidden)
+                .onAppear(perform: {self.navBarHidden = true})
+                .onDisappear(perform: {self.navBarHidden = false})
+        }
     }
 }
 
@@ -42,18 +42,27 @@ struct MasterView: View {
     @State var showSheet:Bool = false
     var body: some View {
         VStack {
-            
+            HStack {
+                EditButton()
+                    .padding()
+                Spacer()
+                Text("My Cities")
+                    .font(.system(size: 36))
+                    .bold()
+                Spacer()
                 Button(action: {
                     self.showSheet.toggle()
                 }) {
                     Image(systemName: "plus")
+                    .padding()
                 }.sheet(isPresented: $showSheet) {
                     AddCityDialog(showingSheet: self.$showSheet, cities: self.$cities)
                 }
+            }
             List {
                 ForEach(self.cities, id: \.self) { city in
                     NavigationLink(
-                        destination: DetailView(selectedCity: city)
+                        destination: DetailView( selectedCity: city)
                     ) {
                         VStack {
                             Text(city)
@@ -75,12 +84,12 @@ struct MasterView: View {
 //-------------------------------------------------------------
 struct DetailView: View {
     var selectedCity: String
-
     var body: some View {
         Group {
             Text(selectedCity)
             Text("time zone")
-        }.navigationBarTitle(Text(selectedCity))
+        }.navigationBarTitle("")
+        .navigationBarHidden(false)
     }
 }
 
